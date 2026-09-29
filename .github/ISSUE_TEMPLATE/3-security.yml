@@ -1,0 +1,55 @@
+name: 보안 경고 판별
+description: 보안 도구 경고를 진짜 / 오탐 / 위험 수용으로 판별해 남긴다 (HacKHU-HP docs/security/tools.md)
+title: "security: [도구] 경고 요약"
+labels: [security]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        ⚠️ **시크릿 유출이라면 이슈보다 먼저 키를 폐기·재발급하고 PL에게 알린다.** 이 이슈에 키 값을 적지 않는다.
+  - type: dropdown
+    id: tool
+    attributes:
+      label: 도구
+      options: [gitleaks, Semgrep, CodeQL, Checkov, Dependabot, Trivy, OWASP ZAP, 기타]
+    validations:
+      required: true
+  - type: input
+    id: rule
+    attributes:
+      label: 규칙 ID
+      placeholder: "tainted-sql-string, CKV_AWS_24, CVE-2022-29217 …"
+    validations:
+      required: true
+  - type: input
+    id: location
+    attributes:
+      label: 위치
+      placeholder: "파일:줄 또는 리소스 이름, Code scanning 알림 링크"
+    validations:
+      required: true
+  - type: dropdown
+    id: verdict
+    attributes:
+      label: 판정
+      options:
+        - 진짜 취약점 — security PR로 수정
+        - 오탐 — 한 줄 단위로 억제
+        - 위험 수용 — 기한까지 두고 본다
+        - 판단 보류 — 논의 필요
+    validations:
+      required: true
+  - type: textarea
+    id: reason
+    attributes:
+      label: 근거
+      description: |
+        1. 사용자가 조작할 수 있는 값인가  2. 어디까지 흘러가는가
+        3. 중간에 검증·이스케이프가 있는가  4. 운영에 배포되는 코드인가
+    validations:
+      required: true
+  - type: input
+    id: deadline
+    attributes:
+      label: 기한 (위험 수용일 때)
+      placeholder: "2026-11-15"
