@@ -1,0 +1,23 @@
+name: 버그·오류
+description: 자료의 오류, 실습 명령이 동작하지 않음, CI 실패 등
+title: "fix: "
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: 무엇이 잘못됐나
+      description: 어느 파일·어느 단계에서
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: 재현 방법
+      description: 실행한 명령과 출력. 시크릿·토큰이 섞여 있으면 지우고 붙인다.
+      render: text
+  - type: input
+    id: env
+    attributes:
+      label: 환경
+      placeholder: "Windows 11 / Git Bash, git 2.45"

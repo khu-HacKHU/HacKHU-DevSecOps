@@ -1,37 +1,35 @@
 # 진행자 가이드
 
-## 수업 전 저장소 설정 (10/8 전까지)
+## 저장소 설정
 
-10/8 실습은 HacKHU-HP와 같은 흐름(develop 기본 브랜치, PR 필수, squash merge)을 전제로 한다.
+10/6 시연과 10/8 실습은 HacKHU-HP와 같은 흐름(develop 기본 브랜치, PR 필수, squash merge)을 전제로 한다. 아래 1 ~ 3은 **9/29에 적용해 두었다.** 바뀌었는지 의심되면 `gh api repos/khu-HacKHU/HacKHU-DevSecOps/rulesets`로 확인한다.
 
-### 1. develop 브랜치
+### 1. 브랜치
 
-```bash
-git switch -c develop main
-git push -u origin develop
-gh repo edit khu-HacKHU/HacKHU-DevSecOps --default-branch develop
-```
+- `main`, `develop` 두 개. **기본 브랜치는 `develop`**이다.
 
-### 2. 머지 방식과 브랜치 자동 삭제
+### 2. 머지 방식
 
-```bash
-gh repo edit khu-HacKHU/HacKHU-DevSecOps \
-  --enable-squash-merge --enable-merge-commit --enable-rebase-merge=false \
-  --delete-branch-on-merge
-```
-
-merge commit은 `release → main` 시연에만 쓴다.
+- squash merge, merge commit만 허용 (rebase merge 끔). merge commit은 `release → main`에만 쓴다.
+- squash 커밋 제목은 PR 제목 그대로, 본문은 비운다 — PR 템플릿의 체크리스트가 히스토리에 남지 않게.
+- 머지 후 원격 브랜치 자동 삭제.
 
 ### 3. Ruleset (Settings → Rules → Rulesets)
 
-| 대상 | 규칙 |
-|---|---|
-| `develop` | PR 필수 (승인 1), 필수 검사 `pr-title`·`gitleaks`, 허용 머지 방식 squash, force push·삭제 금지 |
-| `main` | PR 필수 (승인 1), 필수 검사 `pr-title`·`gitleaks`, 허용 머지 방식 merge, force push·삭제 금지 |
-| `release/**` | PR 필수, force push·삭제 금지 |
+| 이름 | 대상 | 규칙 |
+|---|---|---|
+| `develop` | `develop` | PR 필수 (승인 1), 필수 검사 `pr-title`·`gitleaks`, 허용 머지 방식 squash, force push·삭제 금지 |
+| `main` | `main` | PR 필수 (승인 1), 필수 검사 `pr-title`·`gitleaks`, 허용 머지 방식 merge, force push·삭제 금지 |
+| `release` | `release/**` | PR 필수, 허용 머지 방식 squash, force push·삭제 금지 |
 
-- 코드 오너 리뷰 필수는 켜되 [CODEOWNERS](../.github/CODEOWNERS)에서 `participants/`와 `team-rules.md`는 오너가 없어 짝 승인만으로 머지된다.
-- 필수 검사는 한 번 이상 돌아야 목록에 뜬다. develop을 만든 뒤 테스트 PR을 하나 올려 둔다.
+- 우회(bypass) 권한은 아무에게도 주지 않았다. 관리자도 PR과 승인 1명을 거친다 — 진행자가 자료를 고칠 때도 PM 등 다른 사람의 승인이 필요하다.
+- 코드 오너 리뷰는 필수로 걸지 않았다. 문서·자료의 오너가 PL 한 명이라, 필수로 걸면 PL이 올린 PR을 승인할 수 있는 사람이 없다. [CODEOWNERS](../.github/CODEOWNERS)는 리뷰어 자동 지정용으로만 쓴다.
+
+### 이슈·PR 템플릿
+
+- 이슈: [작업](../.github/ISSUE_TEMPLATE/1-task.yml), [버그·오류](../.github/ISSUE_TEMPLATE/2-bug.yml), [보안 경고 판별](../.github/ISSUE_TEMPLATE/3-security.yml). 빈 이슈는 웹에서 막았다 (`gh issue create --title --body`는 그대로 된다).
+- PR: [pull_request_template.md](../.github/pull_request_template.md)
+- 보안 경고 판별 템플릿은 HacKHU-HP [tools.md](https://github.com/khu-HacKHU/HacKHU-HP/blob/develop/docs/security/tools.md)의 판별 규칙과 같다. S2부터 HacKHU-HP에도 같은 템플릿을 두면 1R 담당자가 그대로 쓸 수 있다.
 
 ### 4. 권한
 
@@ -48,7 +46,7 @@ merge commit은 `release → main` 시연에만 쓴다.
 
 ### 체크리스트
 
-- [ ] 위 저장소 설정 1 ~ 3 완료 — 시연이 `develop` 대상 PR과 `gitleaks` 필수 검사를 쓴다. **10/8 설정이지만 10/6 전에 해 둔다.**
+- [ ] 저장소 설정 1 ~ 3이 그대로인지 확인 — 시연이 `develop` 대상 PR과 `gitleaks` 필수 검사를 쓴다
 - [ ] 전날 [demo.md](../sessions/01-security-tools/demo.md) 리허설, 백업 PR과 캡처 준비
 
 ### 진행 팁
@@ -63,7 +61,7 @@ merge commit은 `release → main` 시연에만 쓴다.
 
 ### 체크리스트
 
-- [ ] 위 저장소 설정 1~5 완료
+- [ ] 저장소 설정 1 ~ 3 확인, 4 ~ 5 완료
 - [ ] 참가자 전원 org 초대 수락 확인 (`gh api orgs/khu-HacKHU/members --paginate --jq '.[].login'`)
 - [ ] 테스트 PR로 `pr-title`, `gitleaks` 검사가 도는지 확인
 - [ ] 전날 [setup.md](setup.md) 재공지, 짝 공지
