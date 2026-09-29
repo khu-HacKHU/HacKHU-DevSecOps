@@ -1,0 +1,16 @@
+# 코드 오너. 여기 적힌 사람의 승인이 있어야 해당 경로의 PR을 머지할 수 있다 (ruleset: require code owner review).
+# 나중 줄이 앞 줄을 덮어쓴다.
+#
+# 참가자 실습 경로(participants/, lab/team-rules.md)는 오너를 두지 않는다 — 짝 리뷰만으로 머지한다.
+
+# CI·보안 도구·저장소 규칙 — PL
+/.github/                @sumin0218
+/.gitleaks.toml          @sumin0218
+/commitlint.config.mjs   @sumin0218
+/package.json            @sumin0218
+/package-lock.json       @sumin0218
+
+# 수업 자료 — PL
+/docs/                                        @sumin0218
+/sessions/**/README.md                        @sumin0218
+/sessions/**/theory.md                        @sumin0218

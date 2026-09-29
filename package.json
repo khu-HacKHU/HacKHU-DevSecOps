@@ -1,0 +1,15 @@
+{
+  "name": "hackhu-devsecops",
+  "private": true,
+  "description": "HacKHU-HP와 같은 커밋 규칙을 이 실습 저장소에도 건다. 10/8 Git 실습에서 PR 제목 검사를 직접 겪어 본다.",
+  "scripts": {
+    "prepare": "husky",
+    "commitlint": "commitlint",
+    "test:commitlint": "bash .github/scripts/test-commitlint.sh"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^20.1.0",
+    "@commitlint/config-conventional": "^20.0.0",
+    "husky": "^9.1.7"
+  }
+}
